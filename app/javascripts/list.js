@@ -47,39 +47,36 @@ List.prototype.shift = function() {
 };
 
 List.prototype.insert = function(index, value) {
-    // case 1: index is out of range (not possible)
     if (index > this.length || index < 0) {
         throw new RangeError
-    } else if (this.head === null) { // case 2: list is empty
-        this.head = this.tail;
+    } else if (this.head === null) {
+        this.head = this.tail = new Node(value);
         this.head.value = value;
+    } else if (index === 0) {
+        this.unshift(value)
+    } else if (index === this.length) {
+        this.push(value);
     } else {
         var currentNode = this.head;
         var newNode = new Node(value);
-        // case 3: insert at front of list
-        if (index === 0) {
-            this.unshift(value);
-        }
-        // case 4: insert somewhere in the middle
-        for (var i = 0; i < index - 1; i++) {
+
+        for (var i = 1; i < index; i++) {
             currentNode = currentNode.next;
         }
-        newNode.next = currentNode.next;
+        newNode.next = currentNode.next
         currentNode.next = newNode;
         newNode.setPrevious(currentNode);
         newNode.next.setPrevious(newNode);
-        // case 5: insert at end of list
-        if (index === this.length) {
-            this.push(value);
-        }
     }
+    return this;
 };
 
 List.prototype.getIndex = function(index) {
     if (index < 0 || index > this.length) {
         return undefined;
     } else {
-        for (var i = 0; i < index - 1; i++) {
+        var node = this.head;
+        for (var i = 0; i < index; i++) {
             node = this.head.next;
         }
         return node.value;
@@ -93,7 +90,6 @@ List.prototype.setIndex = function(index, value) {
 List.prototype.unshift = function(value) {
     // adds a value to the front
     var newNode = new Node(value);
-    ///////// what is wrong with this???? ///////////
     if (this.head === null) {
         this.head = newNode;
         this.tail = this.head;
