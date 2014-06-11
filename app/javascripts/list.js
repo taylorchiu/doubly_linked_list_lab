@@ -84,7 +84,19 @@ List.prototype.getIndex = function(index) {
 };
 
 List.prototype.setIndex = function(index, value) {
-
+    if (index < 0 || index > this.length) {
+        throw new RangeError;
+    } else if (this.head === null || index === this.length) {
+        // list is empty
+        this.push(value);
+    } else {
+        // insert into the list at given index
+        for (var i = 0; i < index; i++) {
+            node = this.head.next;
+        }
+        node.value = value;
+        return node.value;
+    }
 };
 
 List.prototype.unshift = function(value) {
